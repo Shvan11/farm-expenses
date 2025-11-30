@@ -1,7 +1,7 @@
 import { LocalStorageAdapter } from './adapters/local';
 import { SupabaseAdapter } from './adapters/supabase';
 
-// Toggle this to switch backends
-const USE_SUPABASE = false;
+// Check if Supabase is configured
+const isSupabaseConfigured = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const StorageService = USE_SUPABASE && SupabaseAdapter ? SupabaseAdapter : LocalStorageAdapter;
+export const StorageService = isSupabaseConfigured ? SupabaseAdapter : LocalStorageAdapter;
