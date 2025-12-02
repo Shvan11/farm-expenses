@@ -39,13 +39,45 @@ export const FarmProvider = ({ children }) => {
         await refreshData();
     };
 
+    const updateExpense = async (expense) => {
+        await StorageService.updateExpense(expense);
+        await refreshData();
+    };
+
+    const deleteExpense = async (id) => {
+        await StorageService.deleteExpense(id);
+        await refreshData();
+    };
+
     const addPayment = async (payment) => {
         await StorageService.addPayment(payment);
         await refreshData();
     };
 
+    const updatePayment = async (payment) => {
+        await StorageService.updatePayment(payment);
+        await refreshData();
+    };
+
+    const deletePayment = async (id) => {
+        await StorageService.deletePayment(id);
+        await refreshData();
+    };
+
     return (
-        <FarmContext.Provider value={{ partners, expenses, payments, balances, loading, addExpense, addPayment }}>
+        <FarmContext.Provider value={{
+            partners,
+            expenses,
+            payments,
+            balances,
+            loading,
+            addExpense,
+            updateExpense,
+            deleteExpense,
+            addPayment,
+            updatePayment,
+            deletePayment
+        }}>
             {children}
         </FarmContext.Provider>
     );

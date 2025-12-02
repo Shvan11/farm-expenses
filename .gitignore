@@ -130,3 +130,4 @@ dist-ssr
 *.sw?
 .vercel
 .env*.local
+verify-supabase.js

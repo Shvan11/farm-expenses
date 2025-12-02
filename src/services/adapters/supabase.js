@@ -129,5 +129,101 @@ export const SupabaseAdapter = {
       toId: p.to_id,
       date: p.date
     };
+  },
+
+  updateExpense: async (expense) => {
+    if (!supabase) return null;
+
+    const dbExpense = {
+      amount: expense.amount,
+      description: expense.description,
+      payer_id: expense.payerId,
+      date: expense.date,
+      category: expense.category,
+      split_type: expense.splitType
+    };
+
+    const { data, error } = await supabase
+      .from('expenses')
+      .update(dbExpense)
+      .eq('id', expense.id)
+      .select();
+
+    if (error) {
+      console.error('Supabase error updating expense:', error);
+      throw error;
+    }
+
+    const e = data[0];
+    return {
+      id: e.id,
+      amount: e.amount,
+      description: e.description,
+      payerId: e.payer_id,
+      date: e.date,
+      category: e.category,
+      splitType: e.split_type
+    };
+  },
+
+  deleteExpense: async (id) => {
+    if (!supabase) return null;
+
+    const { error } = await supabase
+      .from('expenses')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Supabase error deleting expense:', error);
+      throw error;
+    }
+    return true;
+  },
+
+  updatePayment: async (payment) => {
+    if (!supabase) return null;
+
+    const dbPayment = {
+      amount: payment.amount,
+      from_id: payment.fromId,
+      to_id: payment.toId,
+      date: payment.date
+    };
+
+    const { data, error } = await supabase
+      .from('payments')
+      .update(dbPayment)
+      .eq('id', payment.id)
+      .select();
+
+    if (error) {
+      console.error('Supabase error updating payment:', error);
+      throw error;
+    }
+
+    const p = data[0];
+    return {
+      id: p.id,
+      amount: p.amount,
+      fromId: p.from_id,
+      toId: p.to_id,
+      date: p.date
+    };
+  },
+
+  deletePayment: async (id) => {
+    if (!supabase) return null;
+
+    const { error } = await supabase
+      .from('payments')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Supabase error deleting payment:', error);
+      throw error;
+    }
+    return true;
   }
 };
